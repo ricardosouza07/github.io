@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Plotagem</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 350px;
+            text-align: center;
+        }
+        h2 {
+            margin-bottom: 20px;
+        }
+        input {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+        .result {
+            margin-top: 15px;
+            padding: 10px;
+            background-color: #e9ecef;
+            border-radius: 4px;
+            text-align: center;
+        }
+        .observations {
+            font-size: 12px;
+            margin-top: 10px;
+            color: #6c757d;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Calculadora de Plotagem</h2>
+    <input type="number" id="altura" placeholder="Altura (cm)" step="0.01">
+    <input type="number" id="comprimento" placeholder="Comprimento (cm)" step="0.01">
+    <button onclick="calcularCompraMinima()">Calcular</button>
+    <div id="resultado" class="result"></div>
+    <div class="observations">
+        *Verificar as condições de aplicação, verificar se precisa retirar plotagem antiga.
+    </div>
+</div>
+
+<script>
+    function calcularCompraMinima() {
+        const alturaCm = parseFloat(document.getElementById('altura').value);
+        const comprimentoCm = parseFloat(document.getElementById('comprimento').value);
+
+        if (isNaN(alturaCm) || isNaN(comprimentoCm) || alturaCm <= 0 || comprimentoCm <= 0) {
+            document.getElementById('resultado').textContent = "Por favor, insira valores válidos.";
+            return;
+        }
+
+        // Convertendo centímetros para metros
+        const altura = alturaCm / 100;
+        const comprimento = comprimentoCm / 100;
+
+        // Cálculo da área em metros quadrados
+        const area = altura * comprimento;
+
+        // Cálculo do custo do serviço (R$120 por m²)
+        const custoServico = area * 120;
+
+        // Cálculo do valor de compra mínimo para garantir 20% de lucro
+        const valorCompraMinima = custoServico / (1 - (0.18 + 0.50));
+
+        // Garantindo 20% de lucro
+        const valorCompraComLucro = valorCompraMinima / 0.80;
+
+        // Arredondamento para o próximo múltiplo de R$500
+        const valorArredondado = Math.ceil(valorCompraComLucro / 500) * 500;
+
+        // Exibir o resultado com a mensagem ajustada
+        document.getElementById('resultado').textContent = `O valor mínimo de compra é: R$ ${valorArredondado.toFixed(2)}`;
+    }
+</script>
+
+</body>
+</html>
